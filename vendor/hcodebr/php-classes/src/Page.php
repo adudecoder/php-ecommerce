@@ -14,14 +14,14 @@
         ];
 
         // METHODS
-        public function __construct($opts = array()) // Primeiro a ser executado
+        public function __construct($opts = array(), $tpl_dir = "/views/") // Primeiro a ser executado
         {
 
             $this -> options = array_merge($this -> defaults, $opts);
 
             $config = array(
 
-                "tpl_dir"       => $_SERVER["DOCUMENT_ROOT"]."/views/",
+                "tpl_dir"       => $_SERVER["DOCUMENT_ROOT"].$tpl_dir,
                 "cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
                 "debug"         => false // set to false to improve the speed
 
