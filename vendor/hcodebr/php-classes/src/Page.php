@@ -10,6 +10,8 @@
         private $tpl;
         private $options = [];
         private $defaults = [
+            "header" => true, // Necessario validar no draw do template
+            "footer" => true,
             "data" => []
         ];
 
@@ -33,7 +35,7 @@
 
             $this -> setData($this -> options["data"]);
 
-            $this -> tpl -> draw("header");
+            if ($this -> options["header"] === true) $this -> tpl -> draw("header"); // VALIDAÇÃO
 
         }
 
@@ -58,7 +60,7 @@
         public function __destruct() // Último a ser executado
         {
             
-            $this -> tpl -> draw("footer");
+            if ($this -> options["footer"] === true) $this -> tpl -> draw("footer"); // VALIDAÇÃO
 
         }
 
