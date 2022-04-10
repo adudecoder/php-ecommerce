@@ -1,17 +1,16 @@
-<?php
+<?php 
 
-    namespace Hcode;
+namespace Hcode;
 
-    class PageAdmin extends Page { // Herança
+class PageAdmin extends Page {
 
-        public function __construct($opts = array(), $tpl_dir = "/views/admin/")
-        {
-            
-            // Usando o construtor da classe Page
-            parent::__construct($opts, $tpl_dir); // Passando os parametros do construtor PageAdmin
-            
-        }
+	public function __construct($opts = array(), $tpl_dir = "/views/admin/")
+	{
 
-    }
+		parent::__construct($opts, $tpl_dir);
 
-?>
+	}
+
+}
+
+ ?>

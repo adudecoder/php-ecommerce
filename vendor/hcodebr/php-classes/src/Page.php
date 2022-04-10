@@ -1,69 +1,63 @@
-<?php
+<?php 
 
-    namespace Hcode;
+namespace Hcode;
 
-    use Rain\Tpl;
+use Rain\Tpl;
 
-    class Page {
+class Page {
 
-        // ATTRIBUTS
-        private $tpl;
-        private $options = [];
-        private $defaults = [
-            "header" => true, // Necessario validar no draw do template
-            "footer" => true,
-            "data" => []
-        ];
+	private $tpl;
+	private $options = [];
+	private $defaults = [
+		"header"=>true,
+		"footer"=>true,
+		"data"=>[]
+	];
 
-        // METHODS
-        public function __construct($opts = array(), $tpl_dir = "/views/") // Primeiro a ser executado
-        {
+	public function __construct($opts = array(), $tpl_dir = "/views/"){
+		
+		$this->options = array_merge($this->defaults, $opts);
 
-            $this -> options = array_merge($this -> defaults, $opts);
+		$config = array(
+			"tpl_dir"       => $_SERVER["DOCUMENT_ROOT"].$tpl_dir,
+			"cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
+			"debug"         => false
+	    );
 
-            $config = array(
+		Tpl::configure( $config );
 
-                "tpl_dir"       => $_SERVER["DOCUMENT_ROOT"].$tpl_dir,
-                "cache_dir"     => $_SERVER["DOCUMENT_ROOT"]."/views-cache/",
-                "debug"         => false // set to false to improve the speed
+		$this->tpl = new Tpl;
 
-            );
+		$this->setData($this->options["data"]);
 
-            Tpl::configure( $config );
+		if ($this->options["header"] === true) $this->tpl->draw("header");
 
-            $this -> tpl = new Tpl;
+	}
 
-            $this -> setData($this -> options["data"]);
+	private function setData($data = array())
+	{
 
-            if ($this -> options["header"] === true) $this -> tpl -> draw("header"); // VALIDAÇÃO
+		foreach ($data as $key => $value) {
+			$this->tpl->assign($key, $value);
+		}
 
-        }
+	}
 
-        private function setData($data = array())
-        {
+	public function setTpl($name, $data = array(), $returnHTML = false)
+	{
 
-            foreach ($data as $key => $value) {
-                $this -> tpl -> assign($key, $value);
-            }
+		$this->setData($data);
 
-        }
+		return $this->tpl->draw($name, $returnHTML);
 
-        // Para retornar um ou um HTML direto na tela
-        public function setTpl($name, $data = array(), $returnHTML = false)
-        {
+	}
 
-            $this -> setData($data);
-            return $this -> tpl -> draw($name, $returnHTML);
+	public function __destruct(){
 
-        }
+		if ($this->options["footer"] === true) $this->tpl->draw("footer");
 
-        public function __destruct() // Último a ser executado
-        {
-            
-            if ($this -> options["footer"] === true) $this -> tpl -> draw("footer"); // VALIDAÇÃO
+	}
 
-        }
+}
 
-    }
-
-?>
+ ?>
